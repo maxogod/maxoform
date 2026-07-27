@@ -1,8 +1,10 @@
 package config
 
 import (
-	"gopkg.in/yaml.v3"
+	"fmt"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
@@ -23,10 +25,14 @@ type Repo struct {
 }
 
 type Settings struct {
-	ImportDconf bool `yaml:"import_dconf"`
+	ImportDconf   bool   `yaml:"import_dconf"`
+	GitUserName   string `yaml:"git_user_name"`
+	GitUserEmail  string `yaml:"git_user_email"`
+	SshKeyPath    string `yaml:"ssh_key_path"`
+	SshPassphrase string
 }
 
-func Load(path string) (*Config, error) {
+func LoadConfig(path string) (*Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -37,6 +43,12 @@ func Load(path string) (*Config, error) {
 	if err := yaml.Unmarshal(data, &cfg); err != nil {
 		return nil, err
 	}
+
+	passPhrase, ok := os.LookupEnv("MF_SSH_PATHPHRASE")
+	if !ok {
+		return nil, fmt.Errorf("MF_SSH_PATHPHRASE environment variable is not set")
+	}
+	cfg.Settings.SshPassphrase = passPhrase
 
 	return &cfg, nil
 }

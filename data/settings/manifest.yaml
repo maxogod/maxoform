@@ -1,0 +1,19 @@
+entries:
+  - key: /org/gnome/Ptyxis/
+    file: ptyxis.ini
+  - key: /org/gnome/desktop/background/
+    file: background.ini
+  - key: /org/gnome/desktop/interface/
+    file: interface.ini
+  - key: /org/gnome/desktop/input-sources/
+    file: input.ini
+  - key: /org/gnome/desktop/app-folders/
+    file: app-folders.ini
+  - key: /org/gnome/mutter/
+    file: mutter.ini
+  - key: /org/gnome/nautilus/preferences/
+    file: nautilus.ini
+  - key: /org/gnome/settings-daemon/plugins/power/
+    file: power.ini
+  - key: /org/gnome/shell/
+    file: shell.ini
