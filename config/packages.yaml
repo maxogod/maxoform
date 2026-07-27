@@ -1,0 +1,31 @@
+packages:
+  apt:
+    - git
+    - ripgrep
+    - tree
+    - xclip
+    - curl
+    - golang-go
+    - zsh
+    - flatpak
+    - gnome-software-plugin-flatpak
+
+  snap:
+    - nvim
+    - vlc
+
+  npm:
+    - tree-sitter-cli
+
+repos:
+  - url: git@github.com:maxogod/maxo-nvim.git
+    dest: ~/.config/nvim
+
+  - url: git@github.com:maxogod/maxo-zsh.git
+    dest: ~/.config/zsh
+
+  - url: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: ~/.zsh/zsh-autosuggestions
+
+settings:
+  import_dconf: true
