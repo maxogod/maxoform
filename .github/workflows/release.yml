@@ -45,5 +45,14 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
+          body: |
+            ## How to install and run
+
+            ```bash
+            wget https://github.com/maxogod/maxoform/releases/download/${{ github.ref_name }}/maxoform-linux-amd64.tar.gz
+            tar xzf maxoform-linux-amd64.tar.gz
+            cd maxoform-linux-amd64
+            MF_SSH_PATHPHRASE=mypassphrase ./maxoform --config data/configuration/packages.yaml --settings-dir data/settings --dconf-manifest data/settings/manifest.yaml
+            ```
           files: |
             dist/maxoform-linux-amd64.tar.gz
