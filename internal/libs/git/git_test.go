@@ -116,18 +116,19 @@ func TestCloneMissingRepos_InvalidRepoURL(t *testing.T) {
 
 func TestConfigureGlobalUser_SetsNameAndEmail(t *testing.T) {
 	m := &shell.MockExecutor{}
-	if err := ConfigureGlobalUser(m, "Jane Doe", "jane@example.com"); err != nil {
+	if err := ConfigureGlobalUser(m, "Jane Doe", "jane@example.com", "nvim"); err != nil {
 		t.Fatalf("ConfigureGlobalUser failed: %v", err)
 	}
 	assertCalls(t, m.RunCalls, []string{
 		"git config --global user.name Jane Doe",
 		"git config --global user.email jane@example.com",
+		"git config --global core.editor nvim",
 	})
 }
 
 func TestConfigureGlobalUser_SkipsEmptyValues(t *testing.T) {
 	m := &shell.MockExecutor{}
-	if err := ConfigureGlobalUser(m, "", ""); err != nil {
+	if err := ConfigureGlobalUser(m, "", "", ""); err != nil {
 		t.Fatalf("ConfigureGlobalUser failed: %v", err)
 	}
 	if len(m.RunCalls) != 0 {
@@ -137,7 +138,7 @@ func TestConfigureGlobalUser_SkipsEmptyValues(t *testing.T) {
 
 func TestConfigureGlobalUser_NameOnly(t *testing.T) {
 	m := &shell.MockExecutor{}
-	if err := ConfigureGlobalUser(m, "Jane Doe", ""); err != nil {
+	if err := ConfigureGlobalUser(m, "Jane Doe", "", ""); err != nil {
 		t.Fatalf("ConfigureGlobalUser failed: %v", err)
 	}
 	assertCalls(t, m.RunCalls, []string{"git config --global user.name Jane Doe"})
@@ -150,7 +151,7 @@ func TestConfigureGlobalUser_ReturnsRunError(t *testing.T) {
 			"git config --global user.name Jane Doe": runErr,
 		},
 	}
-	if err := ConfigureGlobalUser(m, "Jane Doe", "jane@example.com"); err == nil {
+	if err := ConfigureGlobalUser(m, "Jane Doe", "jane@example.com", "nvim"); err == nil {
 		t.Fatalf("expected error from ConfigureGlobalUser")
 	}
 	if len(m.RunCalls) != 1 {

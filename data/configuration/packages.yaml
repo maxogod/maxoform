@@ -34,7 +34,7 @@ commands:
     - run: sudo add-apt-repository -y ppa:obsproject/obs-studio
     - run: sudo apt install -y obs-studio
     - run: cp ~/.config/zsh/.zshenv ~/.zshenv
-    - run: chsh -s $(which zsh)
+    - run: sudo usermod -s "$(command -v zsh)" "$USER"
     - run: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     - run: cp data/background ~/.config/background
 
