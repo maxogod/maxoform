@@ -45,7 +45,7 @@ func CloneMissingRepos(runner shell.Executor, repos []config.Repo) error {
 	return nil
 }
 
-func ConfigureGlobalUser(runner shell.Executor, name, email string) error {
+func ConfigureGlobalUser(runner shell.Executor, name, email, coreEditor string) error {
 	if name != "" {
 		if err := runner.Run("git", "config", "--global", "user.name", name); err != nil {
 			return err
@@ -58,6 +58,11 @@ func ConfigureGlobalUser(runner shell.Executor, name, email string) error {
 		}
 	}
 
+	if coreEditor != "" {
+		if err := runner.Run("git", "config", "--global", "core.editor", coreEditor); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

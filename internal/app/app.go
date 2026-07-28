@@ -60,7 +60,7 @@ func (a *application) Run() error {
 	}
 
 	logger.Log.Info("3/6: Cloning repositories")
-	if err := git.ConfigureGlobalUser(a.runner, a.cfg.Settings.GitUserName, a.cfg.Settings.GitUserEmail); err != nil {
+	if err := git.ConfigureGlobalUser(a.runner, a.cfg.Settings.GitUserName, a.cfg.Settings.GitUserEmail, a.cfg.Settings.GitCoreEditor); err != nil {
 		return fmt.Errorf("configuring git user: %w", err)
 	}
 	if err := git.CloneMissingRepos(a.runner, a.cfg.Repos); err != nil {

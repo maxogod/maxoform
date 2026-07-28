@@ -52,4 +52,5 @@ settings:
   import_dconf: true
   git_user_name: "maxogod"
   git_user_email: "maxi18wars@gmail.com"
+  git_core_editor: "nvim"
   ssh_key_path: "~/.ssh/id_ed25519"

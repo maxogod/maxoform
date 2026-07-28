@@ -49,6 +49,7 @@ type Settings struct {
 	ImportDconf   bool   `yaml:"import_dconf"`
 	GitUserName   string `yaml:"git_user_name"`
 	GitUserEmail  string `yaml:"git_user_email"`
+	GitCoreEditor string `yaml:"git_core_editor"`
 	SshKeyPath    string `yaml:"ssh_key_path"`
 	SshPassphrase string
 }
