@@ -34,6 +34,7 @@ commands:
     - run: cp ~/.zsh/zsh-config/.zshenv ~/.zshenv
     - run: chsh -s $(which zsh)
     - run: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    - run: cp data/background ~/.config/background
 
 repos:
   - url: https://github.com/maxogod/maxo-nvim.git
