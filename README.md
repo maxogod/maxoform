@@ -23,7 +23,7 @@ Select a version and install and run it:
 wget https://github.com/maxogod/maxoform/releases/download/v1.0.0/maxoform-linux-amd64.tar.gz
 tar xzf maxoform-linux-amd64.tar.gz
 cd maxoform-linux-amd64
-MF_SSH_PATHPHRASE=mypassphrase ./maxoform --config data/configuration/packages.yaml --settings-dir data/settings --dconf-manifest data/settings/manifest.yaml
+MF_SSH_PASSPHRASE=mypassphrase ./maxoform --config data/configuration/packages.yaml --settings-dir data/settings --dconf-manifest data/settings/manifest.yaml
 ```
 
 Flags:
@@ -79,4 +79,4 @@ The program runs in phases:
 
 - `apt` and `snap` commands are run with `sudo`.
 - dconf import assumes GNOME keys/apps exist on the target Ubuntu system.
-- SSH passphrase is read from `MF_SSH_PATHPHRASE`.
+- SSH passphrase is read from `MF_SSH_PASSPHRASE`.

@@ -66,9 +66,9 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 
-	passPhrase, ok := os.LookupEnv("MF_SSH_PATHPHRASE")
+	passPhrase, ok := os.LookupEnv("MF_SSH_PASSPHRASE")
 	if !ok {
-		return nil, fmt.Errorf("MF_SSH_PATHPHRASE environment variable is not set")
+		return nil, fmt.Errorf("MF_SSH_PASSPHRASE environment variable is not set")
 	}
 	cfg.Settings.SshPassphrase = passPhrase
 
