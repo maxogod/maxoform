@@ -3,11 +3,9 @@ package dconf
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 
 	"github.com/maxogod/maxoform/config"
-	"github.com/maxogod/maxoform/internal/logger"
 	"github.com/maxogod/maxoform/internal/libs/shell"
 )
 
@@ -21,21 +19,14 @@ func Import(runner shell.Runner, settingsDir string, manifest *config.DconfManif
 	return nil
 }
 
-func loadFile(_ shell.Runner, key, filePath string) error {
-	logger.Log.Infof("$ dconf load %s < %s", key, filePath)
-
+func loadFile(runner shell.Runner, key, filePath string) error {
 	f, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("opening %s: %w", filePath, err)
 	}
 	defer f.Close()
 
-	cmd := exec.Command("dconf", "load", key)
-	cmd.Stdin = f
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	if err := cmd.Run(); err != nil {
+	if err := runner.RunWithStdin(f, "dconf", "load", key); err != nil {
 		return fmt.Errorf("loading dconf key %s from %s: %w", key, filePath, err)
 	}
 

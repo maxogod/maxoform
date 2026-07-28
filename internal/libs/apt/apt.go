@@ -1,10 +1,8 @@
 package apt
 
 import (
-	"os/exec"
-
-	"github.com/maxogod/maxoform/internal/logger"
 	"github.com/maxogod/maxoform/internal/libs/shell"
+	"github.com/maxogod/maxoform/internal/logger"
 )
 
 func UpdateSystem(runner shell.Runner) error {
@@ -21,7 +19,7 @@ func UpdateSystem(runner shell.Runner) error {
 
 func Install(runner shell.Runner, packages []string) error {
 	for _, pkg := range packages {
-		if isInstalled(pkg) {
+		if isInstalled(runner, pkg) {
 			logger.Log.Infof("apt package already installed, skipping: %s", pkg)
 			continue
 		}
@@ -34,7 +32,6 @@ func Install(runner shell.Runner, packages []string) error {
 	return nil
 }
 
-func isInstalled(pkg string) bool {
-	cmd := exec.Command("dpkg", "-s", pkg)
-	return cmd.Run() == nil
+func isInstalled(runner shell.Runner, pkg string) bool {
+	return runner.Check("dpkg", "-s", pkg)
 }

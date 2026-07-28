@@ -2,7 +2,6 @@ package npm
 
 import (
 	"fmt"
-	"os/exec"
 
 	"github.com/maxogod/maxoform/config"
 	"github.com/maxogod/maxoform/internal/libs/shell"
@@ -37,7 +36,7 @@ func InstallGlobalWithNvm(runner shell.Runner, packages []string) error {
 
 func installGlobal(runner shell.Runner, packages []string, useNvm bool) error {
 	for _, pkg := range packages {
-		if isInstalled(pkg, useNvm) {
+		if isInstalled(runner, pkg, useNvm) {
 			logger.Log.Infof("npm package already installed, skipping: %s", pkg)
 			continue
 		}
@@ -57,12 +56,10 @@ func installGlobal(runner shell.Runner, packages []string, useNvm bool) error {
 	return nil
 }
 
-func isInstalled(pkg string, useNvm bool) bool {
+func isInstalled(runner shell.Runner, pkg string, useNvm bool) bool {
 	if useNvm {
-		cmd := exec.Command("bash", "-lc", fmt.Sprintf("source \"$HOME/.nvm/nvm.sh\" && npm list -g --depth=0 %q >/dev/null 2>&1", pkg))
-		return cmd.Run() == nil
+		return runner.CheckShell(fmt.Sprintf("source \"$HOME/.nvm/nvm.sh\" && npm list -g --depth=0 %q", pkg))
 	}
 
-	cmd := exec.Command("npm", "list", "-g", "--depth=0", pkg)
-	return cmd.Run() == nil
+	return runner.Check("npm", "list", "-g", "--depth=0", pkg)
 }
