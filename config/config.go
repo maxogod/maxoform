@@ -16,9 +16,14 @@ type Config struct {
 }
 
 type PackagesConfig struct {
-	Apt  []string `yaml:"apt"`
-	Snap []string `yaml:"snap"`
-	Npm  []string `yaml:"npm"`
+	Apt  []string      `yaml:"apt"`
+	Snap []SnapPackage `yaml:"snap"`
+	Npm  []string      `yaml:"npm"`
+}
+
+type SnapPackage struct {
+	Name    string `yaml:"name"`
+	Classic bool   `yaml:"classic"`
 }
 
 type Repo struct {

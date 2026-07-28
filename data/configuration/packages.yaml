@@ -11,8 +11,10 @@ packages:
     - gnome-software-plugin-flatpak
 
   snap:
-    - nvim
-    - vlc
+    - name: nvim
+      classic: true
+    - name: vlc
+      classic: false
 
   npm:
     - tree-sitter-cli
