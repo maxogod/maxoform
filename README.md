@@ -17,7 +17,7 @@ The tool is driven by data already in this repository:
 
 ## How to use
 
-From the repository root:
+Select a version and install and run it:
 
 ```bash
 wget https://github.com/maxogod/maxoform/releases/download/v1.0.0/maxoform-linux-amd64.tar.gz
