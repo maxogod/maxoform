@@ -12,7 +12,7 @@ import (
 	"github.com/maxogod/maxoform/internal/utils"
 )
 
-func CloneMissingRepos(runner shell.Runner, repos []config.Repo) error {
+func CloneMissingRepos(runner shell.Executor, repos []config.Repo) error {
 	for _, repo := range repos {
 		dest, err := utils.ExpandHome(repo.Dest)
 		if err != nil {
@@ -45,7 +45,7 @@ func CloneMissingRepos(runner shell.Runner, repos []config.Repo) error {
 	return nil
 }
 
-func ConfigureGlobalUser(runner shell.Runner, name, email string) error {
+func ConfigureGlobalUser(runner shell.Executor, name, email string) error {
 	if name != "" {
 		if err := runner.Run("git", "config", "--global", "user.name", name); err != nil {
 			return err

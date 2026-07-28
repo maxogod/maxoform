@@ -8,7 +8,7 @@ import (
 	"github.com/maxogod/maxoform/internal/logger"
 )
 
-func BootstrapWithNvm(runner shell.Runner, bootstrap config.NpmBootstrapConfig) error {
+func BootstrapWithNvm(runner shell.Executor, bootstrap config.NpmBootstrapConfig) error {
 	if !bootstrap.Enabled {
 		return nil
 	}
@@ -26,15 +26,15 @@ func BootstrapWithNvm(runner shell.Runner, bootstrap config.NpmBootstrapConfig) 
 	return runner.RunShell(fmt.Sprintf("source \"$HOME/.nvm/nvm.sh\" && nvm install %q", bootstrap.NodeVersion))
 }
 
-func InstallGlobal(runner shell.Runner, packages []string) error {
+func InstallGlobal(runner shell.Executor, packages []string) error {
 	return installGlobal(runner, packages, false)
 }
 
-func InstallGlobalWithNvm(runner shell.Runner, packages []string) error {
+func InstallGlobalWithNvm(runner shell.Executor, packages []string) error {
 	return installGlobal(runner, packages, true)
 }
 
-func installGlobal(runner shell.Runner, packages []string, useNvm bool) error {
+func installGlobal(runner shell.Executor, packages []string, useNvm bool) error {
 	for _, pkg := range packages {
 		if isInstalled(runner, pkg, useNvm) {
 			logger.Log.Infof("npm package already installed, skipping: %s", pkg)
@@ -56,7 +56,7 @@ func installGlobal(runner shell.Runner, packages []string, useNvm bool) error {
 	return nil
 }
 
-func isInstalled(runner shell.Runner, pkg string, useNvm bool) bool {
+func isInstalled(runner shell.Executor, pkg string, useNvm bool) bool {
 	if useNvm {
 		return runner.CheckShell(fmt.Sprintf("source \"$HOME/.nvm/nvm.sh\" && npm list -g --depth=0 %q", pkg))
 	}

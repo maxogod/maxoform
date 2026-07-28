@@ -19,7 +19,7 @@ type application struct {
 	cfg      *config.Config
 	flagCfg  *config.FlagConfig
 	manifest *config.DconfManifest
-	runner   shell.Runner
+	runner   shell.Executor
 }
 
 func New(cfg *config.Config, flagCfg *config.FlagConfig, manifest *config.DconfManifest) Application {

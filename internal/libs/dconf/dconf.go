@@ -9,7 +9,7 @@ import (
 	"github.com/maxogod/maxoform/internal/libs/shell"
 )
 
-func Import(runner shell.Runner, settingsDir string, manifest *config.DconfManifest) error {
+func Import(runner shell.Executor, settingsDir string, manifest *config.DconfManifest) error {
 	for _, e := range manifest.Entries {
 		if err := loadFile(runner, e.Key, filepath.Join(settingsDir, e.File)); err != nil {
 			return err
@@ -19,7 +19,7 @@ func Import(runner shell.Runner, settingsDir string, manifest *config.DconfManif
 	return nil
 }
 
-func loadFile(runner shell.Runner, key, filePath string) error {
+func loadFile(runner shell.Executor, key, filePath string) error {
 	f, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("opening %s: %w", filePath, err)

@@ -5,11 +5,11 @@ import (
 	"github.com/maxogod/maxoform/internal/logger"
 )
 
-func Refresh(runner shell.Runner) error {
+func Refresh(runner shell.Executor) error {
 	return runner.Run("sudo", "snap", "refresh")
 }
 
-func Install(runner shell.Runner, packages []string) error {
+func Install(runner shell.Executor, packages []string) error {
 	for _, pkg := range packages {
 		if isInstalled(runner, pkg) {
 			logger.Log.Infof("snap package already installed, skipping: %s", pkg)
@@ -24,6 +24,6 @@ func Install(runner shell.Runner, packages []string) error {
 	return nil
 }
 
-func isInstalled(runner shell.Runner, pkg string) bool {
+func isInstalled(runner shell.Executor, pkg string) bool {
 	return runner.Check("snap", "list", pkg)
 }

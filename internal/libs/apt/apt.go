@@ -5,7 +5,7 @@ import (
 	"github.com/maxogod/maxoform/internal/logger"
 )
 
-func UpdateSystem(runner shell.Runner) error {
+func UpdateSystem(runner shell.Executor) error {
 	if err := runner.Run("sudo", "apt", "update"); err != nil {
 		return err
 	}
@@ -17,7 +17,7 @@ func UpdateSystem(runner shell.Runner) error {
 	return runner.Run("sudo", "apt", "autoremove", "-y")
 }
 
-func Install(runner shell.Runner, packages []string) error {
+func Install(runner shell.Executor, packages []string) error {
 	for _, pkg := range packages {
 		if isInstalled(runner, pkg) {
 			logger.Log.Infof("apt package already installed, skipping: %s", pkg)
@@ -32,6 +32,6 @@ func Install(runner shell.Runner, packages []string) error {
 	return nil
 }
 
-func isInstalled(runner shell.Runner, pkg string) bool {
+func isInstalled(runner shell.Executor, pkg string) bool {
 	return runner.Check("dpkg", "-s", pkg)
 }

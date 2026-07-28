@@ -9,7 +9,7 @@ import (
 	"github.com/maxogod/maxoform/internal/utils"
 )
 
-func EnsureAndPrint(runner shell.Runner, email, keyPath, passPhrase string) error {
+func EnsureAndPrint(runner shell.Executor, email, keyPath, passPhrase string) error {
 	if email == "" {
 		return fmt.Errorf("ssh key email is required")
 	}
