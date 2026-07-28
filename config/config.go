@@ -8,9 +8,11 @@ import (
 )
 
 type Config struct {
-	Packages PackagesConfig `yaml:"packages"`
-	Repos    []Repo         `yaml:"repos"`
-	Settings Settings       `yaml:"settings"`
+	Packages     PackagesConfig     `yaml:"packages"`
+	Repos        []Repo             `yaml:"repos"`
+	Settings     Settings           `yaml:"settings"`
+	NpmBootstrap NpmBootstrapConfig `yaml:"npm_bootstrap"`
+	Commands     CommandsConfig     `yaml:"commands"`
 }
 
 type PackagesConfig struct {
@@ -22,6 +24,20 @@ type PackagesConfig struct {
 type Repo struct {
 	URL  string `yaml:"url"`
 	Dest string `yaml:"dest"`
+}
+
+type NpmBootstrapConfig struct {
+	Enabled          bool   `yaml:"enabled"`
+	InstallScriptURL string `yaml:"install_script_url"`
+	NodeVersion      string `yaml:"node_version"`
+}
+
+type CommandsConfig struct {
+	Post []ShellCommand `yaml:"post"`
+}
+
+type ShellCommand struct {
+	Run string `yaml:"run"`
 }
 
 type Settings struct {

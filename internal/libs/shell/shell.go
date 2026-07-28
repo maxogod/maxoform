@@ -20,3 +20,12 @@ func (r Runner) Run(name string, args ...string) error {
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
 }
+
+func (r Runner) RunShell(command string) error {
+	logger.Log.Infof("$ bash -lc %q", command)
+
+	cmd := exec.Command("bash", "-lc", command)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
+}
