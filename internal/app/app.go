@@ -86,7 +86,7 @@ func (a *application) Run() error {
 		return err
 	}
 
-	logger.Log.Info("maxoform completed")
+	logger.Log.Info("maxoform completed. You should now reboot the system for some settings to apply.")
 	return nil
 }
 
