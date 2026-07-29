@@ -15,6 +15,7 @@ type Config struct {
 	Commands     CommandsConfig     `yaml:"commands"`
 }
 
+// TODO: add a pre-installation commands list to execute before apt/snap/npm install
 type PackagesConfig struct {
 	Apt  []string      `yaml:"apt"`
 	Snap []SnapPackage `yaml:"snap"`

@@ -33,6 +33,12 @@ func LoadFlagConf() (*FlagConfig, error) {
 	return flagCfg, nil
 }
 
+// TODO: add suppressor flags
+// --quiet
+// --settings-only
+// --installs-only
+// --repos-only
+// --commands-only
 func validateFlags(flagCfg *FlagConfig) error {
 	if flagCfg.ConfigPath == "" || !utils.PathExists(flagCfg.ConfigPath) {
 		return fmt.Errorf("missing --config")

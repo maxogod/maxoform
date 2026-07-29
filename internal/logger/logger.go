@@ -6,6 +6,7 @@ import (
 
 var Log *zap.SugaredLogger
 
+// TODO: add --quiet flag
 func Init(dev bool) error {
 	var cfg zap.Config
 
