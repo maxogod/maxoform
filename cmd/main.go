@@ -8,6 +8,7 @@ import (
 	"github.com/maxogod/maxoform/internal/logger"
 )
 
+// TODO: maxoform apply, maxoform update
 func main() {
 	if err := logger.Init(true); err != nil {
 		log.Fatal(err)
