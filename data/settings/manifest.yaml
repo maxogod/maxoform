@@ -17,3 +17,5 @@ entries:
     file: power.ini
   - key: /org/gnome/shell/
     file: shell.ini
+  - key: /org/gnome/settings-daemon/plugins/color/
+    file: color.ini
