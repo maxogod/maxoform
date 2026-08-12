@@ -1,15 +1,21 @@
 packages:
   apt:
     - git
+    - make
     - ripgrep
     - tree
     - xclip
+    - ca-certificates
     - curl
     - golang-go
     - zsh
     - tmux
     - flatpak
     - gnome-software-plugin-flatpak
+    - python3
+    - python3-pip
+    - python3-venv
+    - pipx
 
   snap:
     - name: nvim
@@ -19,6 +25,8 @@ packages:
 
   npm:
     - tree-sitter-cli
+
+  # TODO: add pip
 
 npm_bootstrap:
   enabled: true
@@ -60,6 +68,6 @@ repos:
 settings:
   import_dconf: true
   git_user_name: "maxogod"
-  git_user_email: "maxi18wars@gmail.com"
+  git_user_email: "105026197+maxogod@users.noreply.github.com"
   git_core_editor: "nvim"
   ssh_key_path: "~/.ssh/id_ed25519"
