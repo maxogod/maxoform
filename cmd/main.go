@@ -30,7 +30,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	appRunner := app.New(cfg, flagCfg, manifest)
+	serviceManifest, err := config.LoadServiceManifest(flagCfg.ServicesManifestPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	appRunner := app.New(cfg, flagCfg, manifest, serviceManifest)
 
 	if err := appRunner.Run(); err != nil {
 		log.Fatal(err)

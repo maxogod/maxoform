@@ -15,6 +15,10 @@ type DconfEntry struct {
 	File string `yaml:"file"`
 }
 
+type ServiceManifest struct {
+	Entries []string `yaml:"entries"`
+}
+
 func LoadDconfManifest(path string) (*DconfManifest, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -22,6 +26,20 @@ func LoadDconfManifest(path string) (*DconfManifest, error) {
 	}
 
 	var manifest DconfManifest
+	if err := yaml.Unmarshal(data, &manifest); err != nil {
+		return nil, err
+	}
+
+	return &manifest, nil
+}
+
+func LoadServiceManifest(path string) (*ServiceManifest, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var manifest ServiceManifest
 	if err := yaml.Unmarshal(data, &manifest); err != nil {
 		return nil, err
 	}

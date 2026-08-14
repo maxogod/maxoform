@@ -20,6 +20,7 @@ type PackagesConfig struct {
 	Apt  []string      `yaml:"apt"`
 	Snap []SnapPackage `yaml:"snap"`
 	Npm  []string      `yaml:"npm"`
+	Pipx []string      `yaml:"pipx"`
 }
 
 type SnapPackage struct {

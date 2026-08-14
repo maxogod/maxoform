@@ -2,17 +2,20 @@
 
 `maxoform` is a Go-based Ubuntu setup tool that:
 
-- installs packages from **apt**, **snap**, and **npm**
+- installs packages from **apt**, **snap**, **npm**, and **pipx**
 - clones Git repositories into configured destinations
 - imports GNOME dconf settings from dumped `.ini` files
 - configures global git identity and outputs your SSH public key (for copy-paste)
 - runs ordered post-install shell commands
+- installs and enables configured `systemd` service units
 
 The tool is driven by data already in this repository:
 
 - package/repo/commands config: `data/configuration/packages.yaml`
 - dconf import manifest: `data/settings/manifest.yaml`
 - dconf settings: `data/settings/*.ini`
+- service manifest: `data/services/manifest.yaml`
+- service unit files: `data/services/*.service`
 - reference scripts for dconf dump/load: `scripts/dconf-dump-load.sh`
 
 ## How to use
@@ -31,6 +34,8 @@ Flags:
 - `--config`: path to YAML configuration file
 - `--settings-dir`: directory containing dconf `.ini` files
 - `--dconf-manifest`: path to dconf manifest YAML (`entries[].key` + `entries[].file`)
+- `--services-dir`: path to service unit files directory (default: `data/services`)
+- `--services-manifest`: path to services manifest YAML (default: `data/services/manifest.yaml`)
 
 ## Configuration format
 
@@ -41,6 +46,7 @@ packages:
   apt: []
   snap: []
   npm: []
+  pipx: []
 
 npm_bootstrap:
   enabled: false
@@ -68,11 +74,12 @@ settings:
 The program runs in phases:
 
 1. updates system package state (`apt update/upgrade/autoremove`, `snap refresh`)
-2. installs configured apt/snap/npm packages
+2. installs configured apt/snap/npm/pipx packages
 3. clones missing repos only
 4. imports dconf keys from `settings/manifest.yaml`
 5. ensures `~/.ssh/id_ed25519.pub` exists and prints the key content
 6. runs `commands.post` shell commands in order
+7. copies and enables services from `data/services/manifest.yaml`
 
 
 ## Notes

@@ -26,7 +26,8 @@ packages:
   npm:
     - tree-sitter-cli
 
-  # TODO: add pip
+  pipx:
+    - pre-commit
 
 npm_bootstrap:
   enabled: true
@@ -47,6 +48,8 @@ commands:
     - run: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     - run: cp data/background ~/.config/background
     - run: cp ~/.config/nvim/font/HackNerdFont-Regular.ttf ~/.local/share/fonts/
+    - run: curl -fsSL https://get.docker.com | sudo sh
+    - run: sudo usermod -aG docker "$USER"
 
 repos:
   - url: https://github.com/maxogod/maxo-nvim.git
