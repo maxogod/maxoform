@@ -20,6 +20,9 @@ func CloneMissingRepos(runner shell.Executor, repos []config.Repo) error {
 		}
 
 		if utils.PathExists(dest) {
+			if err := runner.Run("git", "-C", dest, "pull", "--ff-only"); err != nil {
+				return err
+			}
 			continue
 		}
 
