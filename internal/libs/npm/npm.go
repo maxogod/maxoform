@@ -19,7 +19,7 @@ func BootstrapWithNvm(runner shell.Executor, bootstrap config.NpmBootstrapConfig
 		return fmt.Errorf("npm bootstrap is enabled but node_version is empty")
 	}
 
-	if err := runner.RunShell(fmt.Sprintf("curl -o- %q | bash", bootstrap.InstallScriptURL)); err != nil {
+	if err := runner.RunShell(fmt.Sprintf("curl -o- %q | PROFILE=/dev/null bash", bootstrap.InstallScriptURL)); err != nil {
 		return err
 	}
 
