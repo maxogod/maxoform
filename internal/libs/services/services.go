@@ -12,9 +12,22 @@ import (
 )
 
 func InstallAndEnable(runner shell.Executor, servicesDir string, manifest *config.ServiceManifest) error {
-	for idx, serviceFile := range manifest.Entries {
-		if strings.TrimSpace(serviceFile) == "" {
-			return fmt.Errorf("service manifest entry at index %d is empty", idx)
+	servicesToInstall := make([]string, 0, len(manifest.Entries))
+
+	for idx, entry := range manifest.Entries {
+		serviceFile := strings.TrimSpace(entry.Service)
+		condition := strings.TrimSpace(entry.Condition)
+
+		if serviceFile == "" {
+			return fmt.Errorf("service manifest entry at index %d has empty service", idx)
+		}
+		if condition == "" {
+			return fmt.Errorf("service manifest entry at index %d has empty condition", idx)
+		}
+
+		if !runner.CheckShell(condition) {
+			logger.Log.Infof("service condition not met, skipping %s: %s", serviceFile, condition)
+			continue
 		}
 
 		sourcePath := filepath.Join(servicesDir, serviceFile)
@@ -26,10 +39,12 @@ func InstallAndEnable(runner shell.Executor, servicesDir string, manifest *confi
 		if err := runner.Run("sudo", "cp", sourcePath, targetPath); err != nil {
 			return err
 		}
+
+		servicesToInstall = append(servicesToInstall, serviceFile)
 	}
 
-	if len(manifest.Entries) == 0 {
-		logger.Log.Info("no services configured in manifest, skipping")
+	if len(servicesToInstall) == 0 {
+		logger.Log.Info("no services to install after evaluating manifest conditions, skipping")
 		return nil
 	}
 
@@ -37,7 +52,7 @@ func InstallAndEnable(runner shell.Executor, servicesDir string, manifest *confi
 		return err
 	}
 
-	for _, serviceFile := range manifest.Entries {
+	for _, serviceFile := range servicesToInstall {
 		if err := runner.Run("sudo", "systemctl", "enable", "--now", serviceFile); err != nil {
 			return err
 		}

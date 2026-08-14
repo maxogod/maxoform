@@ -16,7 +16,12 @@ type DconfEntry struct {
 }
 
 type ServiceManifest struct {
-	Entries []string `yaml:"entries"`
+	Entries []ServiceEntry `yaml:"entries"`
+}
+
+type ServiceEntry struct {
+	Condition string `yaml:"condition"`
+	Service   string `yaml:"service"`
 }
 
 func LoadDconfManifest(path string) (*DconfManifest, error) {

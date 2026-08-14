@@ -39,6 +39,14 @@ Manifests are inferred automatically as:
 - `<settings-dir>/manifest.yaml`
 - `<services-dir>/manifest.yaml`
 
+`<services-dir>/manifest.yaml` entries must include a condition command and service file:
+
+```yaml
+entries:
+  - condition: test -f /sys/class/power_supply/BAT0/status
+    service: battery-charge-threshold.service
+```
+
 ## Configuration format
 
 `data/configuration/packages.yaml`:

@@ -1,2 +1,3 @@
 entries:
-  - battery-charge-threshold.service
+  - condition: test -f /sys/class/power_supply/BAT0/status
+    service: battery-charge-threshold.service
