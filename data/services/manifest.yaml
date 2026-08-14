@@ -1,5 +1,2 @@
 entries:
   - battery-charge-threshold.service
-
-# sudo systemctl daemon-reload
-# sudo systemctl enable --now <service_file>

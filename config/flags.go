@@ -3,32 +3,30 @@ package config
 import (
 	"flag"
 	"fmt"
+	"path/filepath"
 
 	"github.com/maxogod/maxoform/internal/utils"
 )
 
 type FlagConfig struct {
-	ConfigPath           string
-	SettingsDirPath      string
+	ConfigPath      string
+	SettingsDirPath string
+	ServicesDirPath string
+
 	DconfManifestPath    string
-	ServicesDirPath      string
 	ServicesManifestPath string
 }
 
 func LoadFlagConf() (*FlagConfig, error) {
 	cfgPath := flag.String("config", "", "path to packages YAML")
 	settingsDir := flag.String("settings-dir", "", "path to dconf .ini files directory")
-	manifestPath := flag.String("dconf-manifest", "", "path to dconf manifest YAML")
-	servicesDir := flag.String("services-dir", "data/services", "path to service files directory")
-	servicesManifest := flag.String("services-manifest", "data/services/manifest.yaml", "path to services manifest YAML")
+	servicesDir := flag.String("services-dir", "", "path to service files directory")
 	flag.Parse()
 
 	flagCfg := &FlagConfig{
-		ConfigPath:           *cfgPath,
-		SettingsDirPath:      *settingsDir,
-		DconfManifestPath:    *manifestPath,
-		ServicesDirPath:      *servicesDir,
-		ServicesManifestPath: *servicesManifest,
+		ConfigPath:      *cfgPath,
+		SettingsDirPath: *settingsDir,
+		ServicesDirPath: *servicesDir,
 	}
 
 	if err := validateFlags(flagCfg); err != nil {
@@ -52,14 +50,18 @@ func validateFlags(flagCfg *FlagConfig) error {
 	if flagCfg.SettingsDirPath == "" || !utils.PathExists(flagCfg.SettingsDirPath) {
 		return fmt.Errorf("missing --settings-dir")
 	}
-	if flagCfg.DconfManifestPath == "" || !utils.PathExists(flagCfg.DconfManifestPath) {
-		return fmt.Errorf("missing --dconf-manifest")
-	}
 	if flagCfg.ServicesDirPath == "" || !utils.PathExists(flagCfg.ServicesDirPath) {
 		return fmt.Errorf("missing --services-dir")
 	}
-	if flagCfg.ServicesManifestPath == "" || !utils.PathExists(flagCfg.ServicesManifestPath) {
-		return fmt.Errorf("missing --services-manifest")
+
+	flagCfg.DconfManifestPath = filepath.Join(flagCfg.SettingsDirPath, "manifest.yaml")
+	if !utils.PathExists(flagCfg.DconfManifestPath) {
+		return fmt.Errorf("missing settings manifest at %s", flagCfg.DconfManifestPath)
+	}
+
+	flagCfg.ServicesManifestPath = filepath.Join(flagCfg.ServicesDirPath, "manifest.yaml")
+	if !utils.PathExists(flagCfg.ServicesManifestPath) {
+		return fmt.Errorf("missing services manifest at %s", flagCfg.ServicesManifestPath)
 	}
 	return nil
 }

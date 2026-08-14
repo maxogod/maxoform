@@ -26,16 +26,18 @@ Select a version and install and run it:
 wget https://github.com/maxogod/maxoform/releases/download/v1.0.0/maxoform-linux-amd64.tar.gz
 tar xzf maxoform-linux-amd64.tar.gz
 cd maxoform-linux-amd64
-MF_SSH_PASSPHRASE=mypassphrase ./maxoform --config data/configuration/packages.yaml --settings-dir data/settings --dconf-manifest data/settings/manifest.yaml
+MF_SSH_PASSPHRASE=mypassphrase ./maxoform --config data/configuration/packages.yaml --settings-dir data/settings --services-dir data/services
 ```
 
 Flags:
 
 - `--config`: path to YAML configuration file
 - `--settings-dir`: directory containing dconf `.ini` files
-- `--dconf-manifest`: path to dconf manifest YAML (`entries[].key` + `entries[].file`)
-- `--services-dir`: path to service unit files directory (default: `data/services`)
-- `--services-manifest`: path to services manifest YAML (default: `data/services/manifest.yaml`)
+- `--services-dir`: directory containing service unit files
+
+Manifests are inferred automatically as:
+- `<settings-dir>/manifest.yaml`
+- `<services-dir>/manifest.yaml`
 
 ## Configuration format
 
