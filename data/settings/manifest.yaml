@@ -19,3 +19,7 @@ entries:
     file: shell.ini
   - key: /org/gnome/settings-daemon/plugins/color/
     file: color.ini
+  - key: /org/gnome/desktop/input-sources/
+    file: input-sources.ini
+  - key: /org/gnome/settings-daemon/plugins/media-keys/
+    file: media-keys.ini
