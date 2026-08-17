@@ -48,7 +48,7 @@ commands:
     - run: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     - run: cp data/background ~/.config/background
     - run: cp ~/.config/nvim/font/HackNerdFont-Regular.ttf ~/.local/share/fonts/
-    - run: curl -fsSL https://get.docker.com | sudo sh
+    - run: command -v docker >/dev/null 2>&1 || curl -fsSL https://get.docker.com | sudo sh
     - run: sudo usermod -aG docker "$USER"
     - run: sudo apt autoremove -y
 
