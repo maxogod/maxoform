@@ -34,6 +34,16 @@ Flags:
 - `--config`: path to YAML configuration file
 - `--settings-dir`: directory containing dconf `.ini` files
 - `--services-dir`: directory containing service unit files
+- `--quiet`: suppress output from executed commands, keep application logs
+- `--quiet-all`: suppress all output, including application logs
+- `--installs-only`: only run package installs (apt, snap, npm, pipx)
+- `--repos-only`: only clone/update repos and set up ssh
+- `--settings-only`: only apply dconf settings
+- `--commands-only`: only run post-install commands
+- `--services-only`: only set up systemd services
+
+The `-only` flags can be combined, e.g. `--settings-only --services-only` runs
+just those two steps. If none are passed, all steps run (default behavior).
 
 Manifests are inferred automatically as:
 - `<settings-dir>/manifest.yaml`

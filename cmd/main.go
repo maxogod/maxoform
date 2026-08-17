@@ -10,15 +10,15 @@ import (
 
 // TODO: maxoform apply, maxoform update
 func main() {
-	if err := logger.Init(true); err != nil {
-		log.Fatal(err)
-	}
-	defer logger.Sync()
-
 	flagCfg, err := config.LoadFlagConf()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	if err := logger.Init(true, flagCfg.QuietAll); err != nil {
+		log.Fatal(err)
+	}
+	defer logger.Sync()
 
 	cfg, err := config.LoadConfig(flagCfg.ConfigPath)
 	if err != nil {

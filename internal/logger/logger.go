@@ -6,8 +6,12 @@ import (
 
 var Log *zap.SugaredLogger
 
-// TODO: add --quiet flag
-func Init(dev bool) error {
+func Init(dev bool, quiet bool) error {
+	if quiet {
+		Log = zap.NewNop().Sugar()
+		return nil
+	}
+
 	var cfg zap.Config
 
 	if dev {
