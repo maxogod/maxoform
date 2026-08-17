@@ -53,6 +53,9 @@ commands:
     - run: sudo apt autoremove -y
 
 repos:
+  - url: https://github.com/maxogod/maxoform
+    dest: ~/.config/maxoform
+
   - url: https://github.com/maxogod/maxo-nvim.git
     dest: ~/.config/nvim
 
