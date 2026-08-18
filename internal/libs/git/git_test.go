@@ -10,7 +10,7 @@ import (
 	"github.com/maxogod/maxoform/internal/libs/shell"
 )
 
-func TestCloneMissingRepos_SkipsExisting(t *testing.T) {
+func TestCloneMissingRepos_PullsExisting(t *testing.T) {
 	dir := t.TempDir()
 	dest := filepath.Join(dir, "existing-repo")
 	if err := os.MkdirAll(dest, 0o755); err != nil {
@@ -23,8 +23,31 @@ func TestCloneMissingRepos_SkipsExisting(t *testing.T) {
 	if err := CloneMissingRepos(m, repos); err != nil {
 		t.Fatalf("CloneMissingRepos failed: %v", err)
 	}
-	if len(m.RunCalls) != 0 {
-		t.Fatalf("expected no run calls for existing repo, got %d", len(m.RunCalls))
+
+	// An existing repo should be pulled instead of cloned, and should
+	// never trigger the ssh remote set-url step.
+	assertCalls(t, m.RunCalls, []string{
+		"git -C " + dest + " pull --ff-only",
+	})
+}
+
+func TestCloneMissingRepos_ReturnsPullError(t *testing.T) {
+	dir := t.TempDir()
+	dest := filepath.Join(dir, "existing-repo")
+	if err := os.MkdirAll(dest, 0o755); err != nil {
+		t.Fatalf("setup failed: %v", err)
+	}
+
+	pullErr := errors.New("pull failed")
+	m := &shell.MockExecutor{
+		RunErrFor: map[string]error{
+			"git -C " + dest + " pull --ff-only": pullErr,
+		},
+	}
+	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
+
+	if err := CloneMissingRepos(m, repos); err == nil {
+		t.Fatalf("expected pull error")
 	}
 }
 

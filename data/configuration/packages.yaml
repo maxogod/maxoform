@@ -78,3 +78,4 @@ settings:
   git_user_email: "105026197+maxogod@users.noreply.github.com"
   git_core_editor: "nvim"
   ssh_key_path: "~/.ssh/id_ed25519"
+  swap_size_gb: 8

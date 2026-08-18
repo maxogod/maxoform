@@ -14,6 +14,7 @@ import (
 	"github.com/maxogod/maxoform/internal/libs/shell"
 	"github.com/maxogod/maxoform/internal/libs/snap"
 	"github.com/maxogod/maxoform/internal/libs/sshkey"
+	"github.com/maxogod/maxoform/internal/libs/swap"
 	"github.com/maxogod/maxoform/internal/logger"
 )
 
@@ -91,8 +92,14 @@ func (a *application) Run() error {
 		} else {
 			logger.Log.Info("4/7: Skipping GNOME dconf settings import")
 		}
+
+		logger.Log.Info("4/7: Configuring swap file")
+		if err := swap.Ensure(a.runner, a.cfg.Settings.SwapSizeGB); err != nil {
+			return fmt.Errorf("configuring swap file: %w", err)
+		}
 	} else {
 		logger.Log.Info("4/7: Skipping GNOME dconf settings import")
+		logger.Log.Info("4/7: Skipping swap file configuration")
 	}
 
 	if a.flagCfg.RunRepos() {
