@@ -94,7 +94,7 @@ func (a *application) Run() error {
 		}
 
 		logger.Log.Info("4/7: Configuring swap file")
-		if err := swap.Ensure(a.runner, a.cfg.Settings.SwapSizeGB); err != nil {
+		if err := swap.Ensure(a.runner, a.cfg.Settings.SwapSizeGB, a.cfg.Settings.SwapFilePath); err != nil {
 			return fmt.Errorf("configuring swap file: %w", err)
 		}
 	} else {

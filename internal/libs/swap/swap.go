@@ -7,13 +7,11 @@ import (
 	"github.com/maxogod/maxoform/internal/logger"
 )
 
-const filePath = "/swapfile"
-
 // Ensure creates and enables a /swapfile of the given size, persisting it in
 // /etc/fstab so it survives reboots. If sizeGB is 0 or less, swap setup is
 // skipped entirely. If a swap file of the requested size is already active,
 // nothing is done.
-func Ensure(runner shell.Executor, sizeGB int) error {
+func Ensure(runner shell.Executor, sizeGB int, filePath string) error {
 	if sizeGB <= 0 {
 		logger.Log.Info("swap size not configured, skipping swap file setup")
 		return nil

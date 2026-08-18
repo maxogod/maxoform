@@ -54,7 +54,8 @@ type Settings struct {
 	GitCoreEditor string `yaml:"git_core_editor"`
 	SshKeyPath    string `yaml:"ssh_key_path"`
 	SshPassphrase string
-	SwapSizeGB    int `yaml:"swap_size_gb"`
+	SwapFilePath  string `yaml:"swap_file_path"`
+	SwapSizeGB    int    `yaml:"swap_size_gb"`
 }
 
 func LoadConfig(path string) (*Config, error) {
