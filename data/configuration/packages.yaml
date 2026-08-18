@@ -9,7 +9,6 @@ packages:
     - curl
     - golang-go
     - zsh
-    - tmux
     - flatpak
     - gnome-software-plugin-flatpak
     - python3
@@ -67,10 +66,6 @@ repos:
 
   - url: https://github.com/wbthomason/packer.nvim
     dest: ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-  - url: https://github.com/tmux-plugins/tpm
-    dest: ~/.tmux/plugins/tpm
-  # TODO: pull tmux config
 
 settings:
   import_dconf: true
