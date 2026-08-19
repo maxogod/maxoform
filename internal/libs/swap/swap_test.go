@@ -13,7 +13,7 @@ func TestEnsure_SkipsWhenSizeNotConfigured(t *testing.T) {
 	logger.Log = zap.NewNop().Sugar()
 	m := &shell.MockExecutor{}
 
-	if err := Ensure(m, 0); err != nil {
+	if err := Ensure(m, 0, "/swapfile"); err != nil {
 		t.Fatalf("Ensure failed: %v", err)
 	}
 	if len(m.RunCalls) != 0 || len(m.RunShellCalls) != 0 || len(m.CheckShellCalls) != 0 {
@@ -30,7 +30,7 @@ func TestEnsure_SkipsWhenAlreadyActiveWithRequestedSize(t *testing.T) {
 		},
 	}
 
-	if err := Ensure(m, 8); err != nil {
+	if err := Ensure(m, 8, "/swapfile"); err != nil {
 		t.Fatalf("Ensure failed: %v", err)
 	}
 	if len(m.RunCalls) != 0 {
@@ -47,7 +47,7 @@ func TestEnsure_CreatesSwapFileWhenNotActive(t *testing.T) {
 		},
 	}
 
-	if err := Ensure(m, 8); err != nil {
+	if err := Ensure(m, 8, "/swapfile"); err != nil {
 		t.Fatalf("Ensure failed: %v", err)
 	}
 
@@ -73,7 +73,7 @@ func TestEnsure_RecreatesWhenActiveWithWrongSize(t *testing.T) {
 		},
 	}
 
-	if err := Ensure(m, 8); err != nil {
+	if err := Ensure(m, 8, "/swapfile"); err != nil {
 		t.Fatalf("Ensure failed: %v", err)
 	}
 
@@ -101,7 +101,7 @@ func TestEnsure_ReturnsFallocateError(t *testing.T) {
 		},
 	}
 
-	if err := Ensure(m, 8); err == nil {
+	if err := Ensure(m, 8, "/swapfile"); err == nil {
 		t.Fatalf("expected fallocate error")
 	}
 }
