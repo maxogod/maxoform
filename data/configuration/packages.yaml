@@ -72,6 +72,7 @@ settings:
   git_user_name: "maxogod"
   git_user_email: "105026197+maxogod@users.noreply.github.com"
   git_core_editor: "nvim"
+  should_setup_ssh: true
   ssh_key_path: "~/.ssh/id_ed25519"
   swap_file_path: "/swap.img"
   swap_size_gb: 8

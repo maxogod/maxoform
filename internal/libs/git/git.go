@@ -12,7 +12,7 @@ import (
 	"github.com/maxogod/maxoform/internal/utils"
 )
 
-func CloneMissingRepos(runner shell.Executor, repos []config.Repo) error {
+func CloneMissingRepos(runner shell.Executor, repos []config.Repo, shouldSetupSSH bool) error {
 	for _, repo := range repos {
 		dest, err := utils.ExpandHome(repo.Dest)
 		if err != nil {
@@ -32,6 +32,10 @@ func CloneMissingRepos(runner shell.Executor, repos []config.Repo) error {
 
 		if err := runner.Run("git", "clone", repo.URL, dest); err != nil {
 			return err
+		}
+
+		if !shouldSetupSSH {
+			continue
 		}
 
 		sshURL, err := toSSHRemote(repo.URL)

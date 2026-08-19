@@ -20,7 +20,7 @@ func TestCloneMissingRepos_PullsExisting(t *testing.T) {
 	m := &shell.MockExecutor{}
 	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err != nil {
+	if err := CloneMissingRepos(m, repos, true); err != nil {
 		t.Fatalf("CloneMissingRepos failed: %v", err)
 	}
 
@@ -46,7 +46,7 @@ func TestCloneMissingRepos_ReturnsPullError(t *testing.T) {
 	}
 	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err == nil {
+	if err := CloneMissingRepos(m, repos, true); err == nil {
 		t.Fatalf("expected pull error")
 	}
 }
@@ -58,13 +58,29 @@ func TestCloneMissingRepos_ClonesHTTPSAndSetsSSHRemote(t *testing.T) {
 	m := &shell.MockExecutor{}
 	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err != nil {
+	if err := CloneMissingRepos(m, repos, true); err != nil {
 		t.Fatalf("CloneMissingRepos failed: %v", err)
 	}
 
 	assertCalls(t, m.RunCalls, []string{
 		"git clone https://github.com/org/repo.git " + dest,
 		"git -C " + dest + " remote set-url origin git@github.com:org/repo.git",
+	})
+}
+
+func TestCloneMissingRepos_SkipsSSHRemoteWhenShouldSetupSSHFalse(t *testing.T) {
+	dir := t.TempDir()
+	dest := filepath.Join(dir, "new-repo")
+
+	m := &shell.MockExecutor{}
+	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
+
+	if err := CloneMissingRepos(m, repos, false); err != nil {
+		t.Fatalf("CloneMissingRepos failed: %v", err)
+	}
+
+	assertCalls(t, m.RunCalls, []string{
+		"git clone https://github.com/org/repo.git " + dest,
 	})
 }
 
@@ -75,7 +91,7 @@ func TestCloneMissingRepos_SkipsSSHRemoteForSSHURL(t *testing.T) {
 	m := &shell.MockExecutor{}
 	repos := []config.Repo{{URL: "git@github.com:org/repo.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err != nil {
+	if err := CloneMissingRepos(m, repos, true); err != nil {
 		t.Fatalf("CloneMissingRepos failed: %v", err)
 	}
 
@@ -98,7 +114,7 @@ func TestCloneMissingRepos_ReturnsCloneError(t *testing.T) {
 	}
 	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err == nil {
+	if err := CloneMissingRepos(m, repos, true); err == nil {
 		t.Fatalf("expected clone error")
 	}
 	if len(m.RunCalls) != 1 {
@@ -118,7 +134,7 @@ func TestCloneMissingRepos_ReturnsSetRemoteError(t *testing.T) {
 	}
 	repos := []config.Repo{{URL: "https://github.com/org/repo.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err == nil {
+	if err := CloneMissingRepos(m, repos, true); err == nil {
 		t.Fatalf("expected remote set-url error")
 	}
 }
@@ -132,7 +148,7 @@ func TestCloneMissingRepos_InvalidRepoURL(t *testing.T) {
 	// "invalid repository URL" error.
 	repos := []config.Repo{{URL: "https:///no-host.git", Dest: dest}}
 
-	if err := CloneMissingRepos(m, repos); err == nil {
+	if err := CloneMissingRepos(m, repos, true); err == nil {
 		t.Fatalf("expected error converting remote to ssh")
 	}
 }

@@ -76,7 +76,7 @@ func (a *application) Run() error {
 		if err := git.ConfigureGlobalUser(a.runner, a.cfg.Settings.GitUserName, a.cfg.Settings.GitUserEmail, a.cfg.Settings.GitCoreEditor); err != nil {
 			return fmt.Errorf("configuring git user: %w", err)
 		}
-		if err := git.CloneMissingRepos(a.runner, a.cfg.Repos); err != nil {
+		if err := git.CloneMissingRepos(a.runner, a.cfg.Repos, a.cfg.Settings.ShouldSetupSSH); err != nil {
 			return fmt.Errorf("cloning repositories: %w", err)
 		}
 	} else {
@@ -102,7 +102,7 @@ func (a *application) Run() error {
 		logger.Log.Info("4/7: Skipping swap file configuration")
 	}
 
-	if a.flagCfg.RunRepos() {
+	if a.flagCfg.RunRepos() && a.cfg.Settings.ShouldSetupSSH {
 		logger.Log.Info("5/7: Creating SSH key")
 		if err := sshkey.EnsureAndPrint(a.runner, a.cfg.Settings.GitUserEmail, a.cfg.Settings.SshKeyPath, a.cfg.Settings.SshPassphrase); err != nil {
 			return fmt.Errorf("creating ssh key: %w", err)

@@ -48,14 +48,15 @@ type ShellCommand struct {
 }
 
 type Settings struct {
-	ImportDconf   bool   `yaml:"import_dconf"`
-	GitUserName   string `yaml:"git_user_name"`
-	GitUserEmail  string `yaml:"git_user_email"`
-	GitCoreEditor string `yaml:"git_core_editor"`
-	SshKeyPath    string `yaml:"ssh_key_path"`
-	SshPassphrase string
-	SwapFilePath  string `yaml:"swap_file_path"`
-	SwapSizeGB    int    `yaml:"swap_size_gb"`
+	ImportDconf    bool   `yaml:"import_dconf"`
+	GitUserName    string `yaml:"git_user_name"`
+	GitUserEmail   string `yaml:"git_user_email"`
+	GitCoreEditor  string `yaml:"git_core_editor"`
+	ShouldSetupSSH bool   `yaml:"should_setup_ssh"`
+	SshKeyPath     string `yaml:"ssh_key_path"`
+	SshPassphrase  string
+	SwapFilePath   string `yaml:"swap_file_path"`
+	SwapSizeGB     int    `yaml:"swap_size_gb"`
 }
 
 func LoadConfig(path string) (*Config, error) {
