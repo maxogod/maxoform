@@ -7,6 +7,7 @@ import (
 	"github.com/maxogod/maxoform/config"
 	"github.com/maxogod/maxoform/internal/libs/apt"
 	"github.com/maxogod/maxoform/internal/libs/dconf"
+	"github.com/maxogod/maxoform/internal/libs/flatpak"
 	"github.com/maxogod/maxoform/internal/libs/git"
 	"github.com/maxogod/maxoform/internal/libs/npm"
 	"github.com/maxogod/maxoform/internal/libs/pipx"
@@ -66,6 +67,15 @@ func (a *application) Run() error {
 		}
 		if err := pipx.Install(a.runner, a.cfg.Packages.Pipx); err != nil {
 			return fmt.Errorf("installing pipx packages: %w", err)
+		}
+
+		if len(a.cfg.Packages.Flatpak) > 0 {
+			if err := flatpak.AddFlathubRemote(a.runner); err != nil {
+				return fmt.Errorf("adding flathub remote: %w", err)
+			}
+			if err := flatpak.Install(a.runner, a.cfg.Packages.Flatpak); err != nil {
+				return fmt.Errorf("installing flatpak packages: %w", err)
+			}
 		}
 	} else {
 		logger.Log.Info("1-2/7: Skipping package manager updates and installs")

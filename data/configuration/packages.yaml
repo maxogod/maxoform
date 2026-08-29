@@ -28,6 +28,9 @@ packages:
   pipx:
     - pre-commit
 
+  flatpak:
+    - org.kde.krita
+
 npm_bootstrap:
   enabled: true
   install_script_url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.6/install.sh
@@ -44,7 +47,6 @@ commands:
     - run: sudo apt install -y obs-studio
     - run: cp ~/.config/zsh/.zshenv ~/.zshenv
     - run: sudo usermod -s "$(command -v zsh)" "$USER"
-    - run: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     - run: cp data/background ~/.config/background
     - run: cp ~/.config/nvim/font/HackNerdFont-Regular.ttf ~/.local/share/fonts/
     - run: command -v docker >/dev/null 2>&1 || curl -fsSL https://get.docker.com | sudo sh

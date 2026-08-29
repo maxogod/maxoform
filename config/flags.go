@@ -34,7 +34,7 @@ func LoadFlagConf() (*FlagConfig, error) {
 	quiet := flag.Bool("quiet", false, "suppress output from executed commands, keep application logs")
 	quietAll := flag.Bool("quiet-all", false, "suppress all output, including application logs")
 
-	installsOnly := flag.Bool("installs-only", false, "only run package installs (apt, snap, npm, pipx)")
+	installsOnly := flag.Bool("installs-only", false, "only run package installs (apt, snap, npm, pipx, flatpak)")
 	reposOnly := flag.Bool("repos-only", false, "only clone/update repos and set up ssh")
 	settingsOnly := flag.Bool("settings-only", false, "only apply dconf settings")
 	commandsOnly := flag.Bool("commands-only", false, "only run post-install commands")

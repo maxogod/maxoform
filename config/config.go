@@ -17,10 +17,11 @@ type Config struct {
 
 // TODO: add a pre-installation commands list to execute before apt/snap/npm install
 type PackagesConfig struct {
-	Apt  []string      `yaml:"apt"`
-	Snap []SnapPackage `yaml:"snap"`
-	Npm  []string      `yaml:"npm"`
-	Pipx []string      `yaml:"pipx"`
+	Apt     []string      `yaml:"apt"`
+	Snap    []SnapPackage `yaml:"snap"`
+	Npm     []string      `yaml:"npm"`
+	Pipx    []string      `yaml:"pipx"`
+	Flatpak []string      `yaml:"flatpak"`
 }
 
 type SnapPackage struct {

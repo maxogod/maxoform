@@ -2,7 +2,7 @@
 
 `maxoform` is a Go-based Ubuntu setup tool that:
 
-- installs packages from **apt**, **snap**, **npm**, and **pipx**
+- installs packages from **apt**, **snap**, **npm**, **pipx**, and **flatpak**
 - clones Git repositories into configured destinations
 - imports GNOME dconf settings from dumped `.ini` files
 - configures global git identity and outputs your SSH public key (for copy-paste)
@@ -36,7 +36,7 @@ Flags:
 - `--services-dir`: directory containing service unit files
 - `--quiet`: suppress output from executed commands, keep application logs
 - `--quiet-all`: suppress all output, including application logs
-- `--installs-only`: only run package installs (apt, snap, npm, pipx)
+- `--installs-only`: only run package installs (apt, snap, npm, pipx, flatpak)
 - `--repos-only`: only clone/update repos and set up ssh
 - `--settings-only`: only apply dconf settings
 - `--commands-only`: only run post-install commands
@@ -67,6 +67,7 @@ packages:
   snap: []
   npm: []
   pipx: []
+  flatpak: []
 
 npm_bootstrap:
   enabled: false
@@ -94,7 +95,7 @@ settings:
 The program runs in phases:
 
 1. updates system package state (`apt update/upgrade/autoremove`, `snap refresh`)
-2. installs configured apt/snap/npm/pipx packages
+2. installs configured apt/snap/npm/pipx/flatpak packages
 3. clones missing repos only
 4. imports dconf keys from `settings/manifest.yaml`
 5. ensures `~/.ssh/id_ed25519.pub` exists and prints the key content
