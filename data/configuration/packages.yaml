@@ -1,7 +1,7 @@
 packages:
   apt:
+    - build-essential
     - git
-    - make
     - ripgrep
     - tree
     - xclip
@@ -16,6 +16,7 @@ packages:
     - python3-venv
     - pipx
     - luarocks
+    - dotnet-sdk-10.0
 
   snap:
     - name: nvim
